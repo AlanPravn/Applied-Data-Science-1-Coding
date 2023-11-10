@@ -1,0 +1,44 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Step 1: Load the Data
+data = pd.read_excel('Trade_Estimation_All.xlsx')
+
+# Step 2: Data Exploration
+print(data.head())  # Display the first few rows of the dataset
+print(data.info())  # Get information about the dataset
+print(data.describe())  # Summary statistics
+
+# Step 3: Data Preparation
+# Extract the number of days from the "time_spent" column
+data['time_spent'] = data['time_spent'].str.extract('(\d+)').astype(float)
+
+# Data Visualization
+
+# Line Plot
+plt.figure(figsize=(12, 6))
+sns.lineplot(x="year", y="time_spent", data=data)
+plt.xlabel("Year")
+plt.ylabel("Time Spent (days)")
+plt.title("Time Spent (days) Over Years")
+plt.show()
+
+# Scatter Plot
+plt.figure(figsize=(10, 6))
+plt.scatter(data['arrival_draught_final'], data['departure_draught_final'])
+plt.xlabel('Arrival Draught Final')
+plt.ylabel('Departure Draught Final')
+plt.title('Scatter Plot of Arrival Draught vs. Departure Draught')
+plt.show()
+
+# Bar Graph with "ShiptypeLevel1" and "SubType"
+plt.figure(figsize=(12, 6))
+sns.set(font_scale=0.8)  # Decrease the font size for all text including legend
+sns.countplot(data=data, x='ShiptypeLevel1', hue='SubType')
+plt.xlabel('Ship Type Level 1')
+plt.ylabel('Count')
+plt.title('Bar Graph of Ship Type Level 1 by SubType')
+plt.legend(title=None)  # Remove the legend title
+plt.tight_layout()  # Adjust spacing for readability
+plt.show()
